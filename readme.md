@@ -59,3 +59,10 @@ included in the environment variable.
 
 You can also run all tests that don't require a device by invoking pytest with
 `-m "not device"`.
+
+
+References
+----------
+
+* [WPD API documentation](https://learn.microsoft.com/en-us/windows/win32/wpd_sdk/wpd-application-programming-interface)
+* [WPD API reference](https://learn.microsoft.com/en-us/windows/win32/api/_wpdsdk/)
