@@ -1,0 +1,17 @@
+from .i_unknown import IUnknown
+
+from .prop_variant import PropVariant
+from .property_key import PropertyKey
+
+from .portable_device_key_collection import PortableDeviceKeyCollection
+from .portable_device_values_collection import PortableDeviceValuesCollection
+from .portable_device_prop_variant_collection import PortableDevicePropVariantCollection
+from .portable_device_values import PortableDeviceValues
+
+from .enum_portable_device_object_ids import EnumPortableDeviceObjectIds
+from .portable_device_data_stream import PortableDeviceDataStream
+from .portable_device_resources import PortableDeviceResources
+from .portable_device_properties import PortableDeviceProperties
+from .portable_device_content import PortableDeviceContent
+from .portable_device import PortableDevice
+from .portable_device_manager import PortableDeviceManager
