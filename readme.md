@@ -21,7 +21,8 @@ higher-level functionality.
 Example
 -------
 
-The following example shows a list of connected devices.
+The following example shows a list of connected devices (without error
+handling).
 
 ```python
 from portable_device_api import PortableDeviceManager
