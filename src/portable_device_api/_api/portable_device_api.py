@@ -39,7 +39,10 @@ WSTRING = _module.WSTRING
 # It is currently unclear what's going wrong here; this might be based on a
 # wrong understanding of COM or comtypes. If you know more, please contact the
 # maintainer of this library or open an issue.
-
+#
+# [1] https://github.com/KasparNagu/PortableDevices
+# [2] https://learn.microsoft.com/en-us/windows/win32/api/portabledeviceapi/nf-portabledeviceapi-ienumportabledeviceobjectids-next
+# [3] https://learn.microsoft.com/de-de/dotnet/api/microsoft.sqlserver.dts.runtime.wrapper.isequentialstream.remoteread?view=sqlserver-2019
 
 # This might be generated incorrectly, or the IDL might be incorrect: pObjIDs is
 # generated with ['out'], but the documentation[2] says [in, out].
@@ -58,26 +61,24 @@ with _comtypes_utils.modify_methodspec(_module.ISequentialStream, "RemoteRead") 
     method.paramflags = _comtypes_utils.change_pflags(method.paramflags, "pv", 3)  # 3: [in, out]
 
 
+# The GUID and methods of the IPortableDeviceDataStream interface are from
+# PortableDeviceApi.h.
+
 class IPortableDeviceDataStream(IStream):
     _case_insensitive_ = True
     _iid_ = _GUID('{88e04db3-1012-4d64-9996-f703a950d3f4}')
     _idlflags_ = []
 
+    _methods_ = [
+        _COMMETHOD(
+            [],
+            _HRESULT,
+            'GetObjectID',
+            (['in', 'out'], _POINTER(WSTRING), 'ppszObjectID')
 
-IPortableDeviceDataStream._methods_ = [
-    _COMMETHOD(
-        [],
-        _HRESULT,
-        'GetObjectID',
-        (['in', 'out'], _POINTER(WSTRING), 'ppszObjectID')
-
-    ),
-    _COMMETHOD([], _HRESULT, 'Cancel'),
-]
-
-# [1] https://github.com/KasparNagu/PortableDevices
-# [2] https://learn.microsoft.com/en-us/windows/win32/api/portabledeviceapi/nf-portabledeviceapi-ienumportabledeviceobjectids-next
-# [3] https://learn.microsoft.com/de-de/dotnet/api/microsoft.sqlserver.dts.runtime.wrapper.isequentialstream.remoteread?view=sqlserver-2019
+        ),
+        _COMMETHOD([], _HRESULT, 'Cancel'),
+    ]
 
 
 # The union field of tag_inner_PROPVARIANT that contains the actual data is
