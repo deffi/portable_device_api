@@ -21,8 +21,6 @@ class PortableDeviceDataStream(ComWrapper):
         # be using ISequentialStream - if
         # _1F001332_1A57_4934_BE31_AFFC99F4EE0A_0_1_0.ISequentialStream is
         # modified, then this fails.
-        print()
-        print(self.p)
         _, length = self.p.RemoteRead(
             pv = buffer,
             cb = ctypes.c_ulong(chunk_size))
@@ -35,11 +33,11 @@ class PortableDeviceDataStream(ComWrapper):
             pv = ctypes.cast(string_buffer, ctypes.POINTER(ctypes.c_ubyte)),
             cb = len(chunk))
 
-    def commit(self):
+    def commit(self) -> None:
         self.p.Commit(grfCommitFlags = 0)
 
     def get_object_id(self) -> str:
         return self.p.GetObjectID()
 
-    def cancel(self):
+    def cancel(self) -> None:
         self.p.Cancel()

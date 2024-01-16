@@ -28,7 +28,7 @@ class PortableDeviceValues(ComWrapper):
         self.p.GetCount(pcelt = pointer(count))  # Not [out]
         return count.value
 
-    def get_at(self, index) -> tuple[PropertyKey, PropVariant]:
+    def get_at(self, index: int) -> tuple[PropertyKey, PropVariant]:
         # [in, out] POINTER(tag_inner_PROPVARIANT) pValue
         p_key, p_value = self.p.GetAt(index = index)  # [in] c_ulong
         return PropertyKey.create(p_key.fmtid, p_key.pid), PropVariant(p_value)

@@ -1,5 +1,6 @@
 import ctypes
-from ctypes import POINTER, pointer, cast
+from ctypes import pointer
+from typing import Any
 
 from portable_device_api import PropVariant
 from portable_device_api._api import portable_device_api, portable_device_types
@@ -13,7 +14,7 @@ class PortableDevicePropVariantCollection(ComWrapper):
     _type_ = portable_device_types.PortableDevicePropVariantCollection
     _interface_ = portable_device_api.IPortableDevicePropVariantCollection
 
-    def add(self, value: PropVariant):
+    def add(self, value: PropVariant) -> None:
         value_pointer = pointer(value.v)
         self.p.Add(pValue = value_pointer)
 
@@ -22,7 +23,7 @@ class PortableDevicePropVariantCollection(ComWrapper):
         self.p.GetCount(pcElems = pointer(count))  # Not [out]
         return count.value
 
-    def get_at(self, index: int):
+    def get_at(self, index: int) -> Any:
         value = PropVariant.create()
         self.p.GetAt(
             dwIndex = index,

@@ -1,3 +1,4 @@
+from collections.abc import Iterator
 import os
 from datetime import datetime
 
@@ -30,7 +31,7 @@ class TestDevice:
         self.resource = self.content.transfer()
         self.properties = self.content.properties()
 
-    def setup(self, base_dir: str):
+    def setup(self, base_dir: str) -> None:
         root_object_id = self.content.enum_objects(defs.WPD_DEVICE_OBJECT_ID).next(1)[0]
 
         top_object_ids = self.content.enum_objects(root_object_id).next(999)
@@ -48,7 +49,7 @@ class TestDevice:
 
         self.test_dir_object_id = self.content.create_object_with_properties_only(values)
 
-    def cleanup(self):
+    def cleanup(self) -> None:
         object_ids_pvc = PortableDevicePropVariantCollection.create()
         object_ids_pvc.add(PropVariant.create(VT_LPWSTR, self.test_dir_object_id))
         self.content.delete(defs.DELETE_OBJECT_OPTIONS.PORTABLE_DEVICE_DELETE_NO_RECURSION, object_ids_pvc)
@@ -63,7 +64,7 @@ class TestDevice:
         else:
             return None
 
-    def get_object_names(self, object_id = None):
+    def get_object_names(self, object_id = None) -> list[str]:
         object_id = object_id or self.test_dir_object_id
 
         children = self.content.enum_objects(object_id).next(999)
@@ -96,7 +97,7 @@ class TestDevice:
         delete_result = self.content.delete(flags, object_ids_pvc)
         return [errors.to_hresult(delete_result.get_at(i).value) for i in range(delete_result.get_count())]
 
-    def upload_file(self, parent_object_id: str, file_name: str, content: bytes):
+    def upload_file(self, parent_object_id: str, file_name: str, content: bytes) -> str:
         values = PortableDeviceValues.create()
         values.set_string_value(defs.WPD_OBJECT_PARENT_ID, parent_object_id)
         values.set_unsigned_large_integer_value(defs.WPD_OBJECT_SIZE, len(content))

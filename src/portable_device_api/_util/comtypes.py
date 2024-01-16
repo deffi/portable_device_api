@@ -48,7 +48,7 @@ from contextlib import contextmanager
 
 
 @contextmanager
-def modify_methodspec(interface_class, method_name: str):
+def modify_methodspec(interface_class: type, method_name: str) -> None:
     # noinspection PyProtectedMember
     for method in interface_class._methods_:
         if method.name == method_name:

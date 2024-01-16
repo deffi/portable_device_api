@@ -1,5 +1,5 @@
 from ctypes import pointer
-from typing import Self
+from typing import Self, Any
 
 import comtypes.automation
 
@@ -15,7 +15,7 @@ class PropVariant:
         self._v = v
 
     @classmethod
-    def create(cls, vt = comtypes.automation.VT_EMPTY, value = UNSPECIFIED) -> Self:
+    def create(cls, vt: comtypes.automation.VARENUM = comtypes.automation.VT_EMPTY, value: Any = UNSPECIFIED) -> Self:
         prop_variant = cls(tag_inner_PROPVARIANT(vt))
 
         if value is not UNSPECIFIED:

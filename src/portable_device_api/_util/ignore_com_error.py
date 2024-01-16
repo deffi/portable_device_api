@@ -18,16 +18,20 @@ class ignore_com_error:
         else:
             return False
 
-    def __enter__(self):  # Context manager
+    # Context manager ##########################################################
+
+    def __enter__(self):
         if self._return_value is not UNSPECIFIED:
             raise RuntimeError("ignore_com_error with return value cannot be used as a context manager")
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):  # Context manager
+    def __exit__(self, exc_type, exc_val, exc_tb):
         if self._ignore_error(exc_val):
             return True  # Ignore exception
 
-    def __call__(self, func):  # Decorator
+    # Decorator ################################################################
+
+    def __call__(self, func):
         if self._return_value is UNSPECIFIED:
             raise RuntimeError("ignore_com_error with return value cannot be used as a decorator")
 
@@ -42,5 +46,3 @@ class ignore_com_error:
                     raise
 
         return wrapper
-
-

@@ -41,5 +41,5 @@ class PortableDeviceProperties(ComWrapper):
 #         (['in'], POINTER(IPortableDeviceKeyCollection), 'pKeys')
 #     ),
 
-    def cancel(self):
-        self.p.Cancel()
+    def cancel(self) -> None:
+        return self.p.Cancel()

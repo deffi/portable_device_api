@@ -13,10 +13,10 @@ class PortableDeviceKeyCollection(ComWrapper):
     _type_ = portable_device_types.PortableDeviceKeyCollection
     _interface_ = portable_device_api.IPortableDeviceKeyCollection
 
-    def add(self, key: PropertyKey):
+    def add(self, key: PropertyKey) -> None:
         self.p.Add(key = key.v)  # Documentation says Key, but it's key
 
-    def clear(self):
+    def clear(self) -> None:
         self.p.Clear()
 
     def get_count(self) -> int:
@@ -29,5 +29,5 @@ class PortableDeviceKeyCollection(ComWrapper):
         self.p.GetAt(dwIndex = index, pKey = pointer(key.v))
         return key
 
-    def remove_at(self, index: int):
+    def remove_at(self, index: int) -> None:
         self.p.RemoveAt(dwIndex = index)

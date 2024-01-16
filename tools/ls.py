@@ -5,7 +5,8 @@ from collections.abc import Iterator
 
 from comtypes import COMError, GUID
 
-from portable_device_api import PortableDeviceManager, PortableDevice, PortableDeviceContent, PortableDeviceKeyCollection, errors
+from portable_device_api import (PortableDeviceManager, PortableDevice, PortableDeviceContent,
+                                 PortableDeviceKeyCollection, errors, PortableDeviceProperties, PropertyKey)
 from portable_device_api._util import ignore_com_error
 import portable_device_api.definitions as defs
 
@@ -16,7 +17,7 @@ def walk(content: PortableDeviceContent, object_id: str, depth = 0) -> Iterator[
         yield from walk(content, child_object_id, depth+1)
 
 
-def _ls_devices():
+def _ls_devices() -> None:
     manager = PortableDeviceManager.create()
 
     print(f"{'Description':<25}{'Friendly name':<25}{'Manufacturer':<25}")
@@ -30,7 +31,8 @@ def _ls_devices():
         print(f"{description!r:<25}{friendly_name:<25}{manufacturer:<25}")
 
 
-def _dump_property_attributes(properties, object_id, property_key, depth: int):
+def _dump_property_attributes(properties: PortableDeviceProperties, object_id: str, property_key: PropertyKey,
+                              depth: int) -> None:
     # Some properties don't support this
     with ignore_com_error(errors.ERROR_NOT_SUPPORTED):
         attributes = properties.get_property_attributes(object_id, property_key)
@@ -40,7 +42,7 @@ def _dump_property_attributes(properties, object_id, property_key, depth: int):
             print(f"{'  ' * (depth + 2)}{attribute_key} = {attribute_value.value}")
 
 
-def _dump_properties(properties, object_id: str, depth: int):
+def _dump_properties(properties: PortableDeviceProperties, object_id: str, depth: int) -> None:
     supported_properties = properties.get_supported_properties(object_id)
     all_property_values = properties.get_values(object_id, supported_properties)
     for i in range(supported_properties.get_count()):
@@ -58,7 +60,7 @@ def _dump_properties(properties, object_id: str, depth: int):
         # _dump_property_attributes(properties, object_id, property_key, depth + 1)
 
 
-def _ls(device_description: str):
+def _ls(device_description: str) -> None:
     manager = PortableDeviceManager.create()
     device_id = [device_id for device_id in manager.get_devices() if
                  manager.get_device_description(device_id) == device_description][0]

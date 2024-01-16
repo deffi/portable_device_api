@@ -66,7 +66,7 @@ class PortableDeviceManager(ComWrapper):
         return buffer.value
 
     @ignore_com_error(errors.ERROR_INVALID_DATA, return_value = None)
-    def get_device_friendly_name(self, device_id: str) -> str | None:
+    def get_device_friendly_name(self, device_id: str) -> str:
         """If not supported by the device, use the WPD_OBJECT_NAME property of
         the device object (object ID WPD_DEVICE_OBJECT_ID)"""
 
@@ -84,7 +84,7 @@ class PortableDeviceManager(ComWrapper):
 
         return buffer.value
 
-    def get_device_manufacturer(self, device_id: str) -> str | None:
+    def get_device_manufacturer(self, device_id: str) -> str:
         # Determine the length by passing a null pointer for the manufacturer
         _, size = self.p.GetDeviceManufacturer(
             pszPnPDeviceID=device_id,
