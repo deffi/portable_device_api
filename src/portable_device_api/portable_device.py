@@ -13,8 +13,8 @@ class PortableDevice(ComWrapper):
     def open(self, device_id: str):
         client_information = PortableDeviceValues.create()
         self.p.Open(
-            pszPnPDeviceID = device_id,
-            pClientInfo = client_information.p)
+            pszPnPDeviceID = device_id,          # [in] WSTRING pszPnPDeviceID
+            pClientInfo = client_information.p)  # [in] POINTER(IPortableDeviceValues) pClientInfo
 
     def close(self):
         self.p.Close()
@@ -22,4 +22,5 @@ class PortableDevice(ComWrapper):
     # Content ##################################################################
 
     def content(self) -> PortableDeviceContent:
+        # [out] POINTER(POINTER(IPortableDeviceContent)) ppContent
         return PortableDeviceContent(self.p.Content())

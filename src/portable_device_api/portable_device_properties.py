@@ -42,4 +42,4 @@ class PortableDeviceProperties(ComWrapper):
 #     ),
 
     def cancel(self) -> None:
-        return self.p.Cancel()
+        self.p.Cancel()

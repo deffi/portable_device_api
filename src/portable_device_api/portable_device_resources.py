@@ -11,11 +11,12 @@ class PortableDeviceResources(ComWrapper):
     def get_stream(self, object_id: str) -> tuple[PortableDeviceDataStream, int]:
         """Yields stream, optimal buffer size"""
 
-        # stream is a pointer to PortableDeviceApi.IStream
+        # [in, out] POINTER(c_ulong) pdwOptimalBufferSize
+        # [out] POINTER(POINTER(IStream)) ppStream
         optimal_buffer_size, stream = self.p.GetStream(
-            pszObjectID = object_id,
-            key = defs.WPD_RESOURCE_DEFAULT.v,
-            dwMode = ctypes.c_uint(0))
+            pszObjectID = object_id,            # [in] WSTRING pszObjectID
+            key = defs.WPD_RESOURCE_DEFAULT.v,  # [in] POINTER(_tagpropertykey) key
+            dwMode = ctypes.c_uint(0))          # [in] c_ulong dwMode
 
         # Seems like this is an IPortableDeviceDataStream
         stream = stream.QueryInterface(portable_device_api.IPortableDeviceDataStream)

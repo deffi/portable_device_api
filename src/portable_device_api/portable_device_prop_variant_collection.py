@@ -16,16 +16,16 @@ class PortableDevicePropVariantCollection(ComWrapper):
 
     def add(self, value: PropVariant) -> None:
         value_pointer = pointer(value.v)
-        self.p.Add(pValue = value_pointer)
+        self.p.Add(pValue = value_pointer)  # [in] POINTER(tag_inner_PROPVARIANT) pValue
 
     def get_count(self) -> int:
         count = ctypes.c_ulong()
-        self.p.GetCount(pcElems = pointer(count))  # Not [out]
+        self.p.GetCount(pcElems = pointer(count))  # [in] POINTER(c_ulong) pcElems
         return count.value
 
     def get_at(self, index: int) -> Any:
         value = PropVariant.create()
         self.p.GetAt(
-            dwIndex = index,
-            pValue = pointer(value.v))
+            dwIndex = index,            # [in] c_ulong dwIndex
+            pValue = pointer(value.v))  # [in] POINTER(tag_inner_PROPVARIANT) pValue
         return value

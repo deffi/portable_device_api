@@ -11,8 +11,10 @@ class EnumPortableDeviceObjectIds(ComWrapper):
         object_ids = (ctypes.c_wchar_p * objects)()
 
         # Patched, see portable_device_api._api.portable_device_api
+        # [out] POINTER(WSTRING) pObjIDs
+        # [in, out] POINTER(c_ulong) pcFetched
         _, fetched_count = self.p.Next(
-            cObjects = ctypes.c_ulong(objects),
-            pObjIDs = ctypes.cast(object_ids, POINTER(ctypes.c_wchar_p)))
+            cObjects = ctypes.c_ulong(objects),                            # [in] c_ulong cObjects
+            pObjIDs = ctypes.cast(object_ids, POINTER(ctypes.c_wchar_p)))  # [out] POINTER(WSTRING) pObjIDs
 
         return [object_ids[i] for i in range(fetched_count)]

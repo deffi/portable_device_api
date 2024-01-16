@@ -25,12 +25,13 @@ class PortableDeviceValues(ComWrapper):
 
     def get_count(self) -> int:
         count = DWORD(0)
-        self.p.GetCount(pcelt = pointer(count))  # Not [out]
+        self.p.GetCount(pcelt = pointer(count))  # [in] POINTER(c_ulong) pcelt
         return count.value
 
     def get_at(self, index: int) -> tuple[PropertyKey, PropVariant]:
+        # [in, out] POINTER(_tagpropertykey) pKey
         # [in, out] POINTER(tag_inner_PROPVARIANT) pValue
-        p_key, p_value = self.p.GetAt(index = index)  # [in] c_ulong
+        p_key, p_value = self.p.GetAt(index = index)  # [in] c_ulong index
         return PropertyKey.create(p_key.fmtid, p_key.pid), PropVariant(p_value)
 
     def get_value(self, key: PropertyKey) -> PropVariant:
@@ -54,9 +55,11 @@ class PortableDeviceValues(ComWrapper):
     #     ),
 
     def remove_value(self, key: PropertyKey):
-        self.p.RemoveValue(pointer(key.v))
+        self.p.RemoveValue(key = pointer(key.v))  # [in] POINTER(_tagpropertykey) key
 
     # Specific setters #########################################################
+
+    # All: [in] POINTER(_tagpropertykey) key
 
     def set_string_value(self, key: PropertyKey, value: str):
         # [in] WSTRING Value
@@ -126,6 +129,8 @@ class PortableDeviceValues(ComWrapper):
         self.p.SetIPortableDeviceValuesCollectionValue(key = key.v, pValue = value.p)
 
     # Specific getters #########################################################
+
+    # All: [in] POINTER(_tagpropertykey) key
 
     def get_string_value(self, key: PropertyKey) -> str:
         # [out] POINTER(WSTRING) pValue
