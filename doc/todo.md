@@ -11,8 +11,6 @@ Package
 
 Error-message text
 
-Definitions: re-use GUIDs
-
 Distinguish between com.ClassWrapper and com.InterfaceWrapper?
 
 Tests
