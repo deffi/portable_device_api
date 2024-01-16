@@ -20,7 +20,14 @@ class TestDevice:
 
         manager = PortableDeviceManager.create()
 
-        device_ids = manager.get_devices()
+        manager.refresh_device_list()
+
+        list(manager.get_private_devices())
+
+        device_ids = list(manager.get_devices())
+        device_descriptions = [manager.get_device_description(did) for did in device_ids]
+        device_friendly_names = [manager.get_device_friendly_name(did) for did in device_ids]
+        device_manufacturers = [manager.get_device_manufacturer(did) for did in device_ids]
         matching_device_ids = [did for did in device_ids if manager.get_device_description(did) == device_description]
         assert len(matching_device_ids) == 1
         device_id = matching_device_ids[0]

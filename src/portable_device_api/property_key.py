@@ -31,7 +31,7 @@ class PropertyKey:
             return NotImplemented
 
     def __repr__(self):
-        return f"{type(self)}(fmtid = {self.v.fmtid}, pid = {self.v.pid})"
+        return f"{type(self).__name__}.create(GUID('{self.v.fmtid}'), {self.v.pid})"
 
     def __str__(self):
         return f"{self.v.fmtid}:{self.v.pid}"

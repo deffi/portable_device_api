@@ -198,4 +198,4 @@ class PortableDeviceValues(ComWrapper):
 
     def get_i_portable_device_values_collection_value(self, key: PropertyKey) -> PortableDeviceValuesCollection:
         # [out] POINTER(POINTER(IPortableDeviceValuesCollection)) ppValue
-        return self.p.GetIPortableDeviceValuesCollectionValue(key = key.v)
+        return PortableDeviceValuesCollection(self.p.GetIPortableDeviceValuesCollectionValue(key = key.v))

@@ -1,11 +1,12 @@
 import pytest
 from comtypes import GUID, COMError
+from comtypes.automation import VT_LPWSTR
 
 from pytest import approx
 
 from portable_device_api.errors import to_hresult
-from portable_device_api import PortableDeviceValues, PropertyKey
-
+from portable_device_api import (PortableDeviceValues, PropertyKey, PropVariant, PortableDevicePropVariantCollection,
+                                 PortableDeviceValues, PortableDeviceValuesCollection, PortableDeviceKeyCollection)
 
 Uut = PortableDeviceValues
 guid_1 = GUID("{DEADBEEF-0000-0000-0000-000000000000}")
@@ -32,10 +33,21 @@ class TestPortableDeviceValues:
         uut.remove_value(key_22)
         assert uut.get_count() == 0
 
+    def test_get_at(self):
+        def unpack(a, b: PropVariant):
+            return a, b.value
+
+        uut = PortableDeviceValues.create()
+        uut.set_string_value(key_11, "one")
+        uut.set_string_value(key_22, "two")
+
+        assert unpack(*uut.get_at(0)) == (key_11, "one")
+        assert unpack(*uut.get_at(1)) == (key_22, "two")
+
     # Specific setters/getters #########################################################
 
     @staticmethod
-    def _test_set_get(setter, getter, values, read_map = lambda x: x):
+    def _test_set_get(setter, getter, values, *, compare_value: bool = True, read_map = lambda x: x):
         uut = PortableDeviceValues.create()
         assert uut.get_count() == 0
 
@@ -45,7 +57,8 @@ class TestPortableDeviceValues:
 
         for index, expected_value in enumerate(values):
             read_value = getter(uut, PropertyKey.create(guid_1, index))
-            assert read_map(read_value) == expected_value
+            if compare_value:
+                assert read_map(read_value) == expected_value
             assert type(read_value) is type(expected_value)
 
     def test_string_value(self):
@@ -76,8 +89,23 @@ class TestPortableDeviceValues:
         self._test_set_get(Uut.set_bool_value, Uut.get_bool_value, [True, False, True])
 
     # Probably works the same as portable_device_values_value
-    # def test_i_unknown_value(self):
-    #     ...
+    def test_i_unknown_value(self):
+        write_value = PortableDeviceValues.create()
+        write_value.set_unsigned_integer_value(key_11, 111)
+
+        uut = PortableDeviceValues.create()
+        # TODO this would work better if we had an IUnknown wrapper that
+        # PortableDeviceValues inherits from
+        uut.set_i_unknown_value(key_11, write_value)
+
+        read_value = uut.get_i_unknown_value(key_11)
+        # Cast it back to PortableDeviceValues
+        # TODO this would work better if we had an IUnknown wrapper that
+        # PortableDeviceValues inherits from
+        read_value = PortableDeviceValues(read_value.p.QueryInterface(PortableDeviceValues._interface_))
+
+        assert read_value is not write_value
+        assert read_value.get_unsigned_integer_value(key_11) == write_value.get_unsigned_integer_value(key_11)
 
     def test_guid_value(self):
         self._test_set_get(Uut.set_guid_value, Uut.get_guid_value, [guid_1, guid_2])
@@ -109,16 +137,25 @@ class TestPortableDeviceValues:
         assert read_value_2.get_unsigned_integer_value(key_22) == write_value_2.get_unsigned_integer_value(key_22)
 
     # Probably works the same as portable_device_values_value
-    # def test_i_portable_device_prop_variant_collection_value(self):
-    #     ...
+    def test_i_portable_device_prop_variant_collection_value(self):
+        self._test_set_get(Uut.set_i_portable_device_prop_variant_collection_value,
+                           Uut.get_i_portable_device_prop_variant_collection_value,
+                           [PortableDevicePropVariantCollection.create(), PortableDevicePropVariantCollection.create()],
+                           compare_value=False)
 
     # Probably works the same as portable_device_values_value
-    # def test_i_portable_device_key_collection_value(self):
-    #     ...
+    def test_i_portable_device_key_collection_value(self):
+        self._test_set_get(Uut.set_i_portable_device_key_collection_value,
+                           Uut.get_i_portable_device_key_collection_value,
+                           [PortableDeviceKeyCollection.create(), PortableDeviceKeyCollection.create()],
+                           compare_value=False)
 
     # Probably works the same as portable_device_values_value
-    # def test_i_portable_device_values_collection_value(self):
-    #     ...
+    def test_i_portable_device_values_collection_value(self):
+        self._test_set_get(Uut.set_i_portable_device_values_collection_value,
+                           Uut.get_i_portable_device_values_collection_value,
+                           [PortableDeviceValuesCollection.create(), PortableDeviceValuesCollection.create()],
+                           compare_value=False)
 
     def test_set_get_wrong_type(self):
         uut = PortableDeviceValues.create()
