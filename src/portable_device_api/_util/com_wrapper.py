@@ -19,9 +19,9 @@ class ComWrapper:
     def create(cls) -> Self:
         if cls._type_ is not None:
             return cls(comtypes.client.CreateObject(
-                progid=cls._type_,
-                clsctx=comtypes.CLSCTX_INPROC_SERVER,
-                interface=cls._interface_))
+                progid = cls._type_,
+                clsctx = comtypes.CLSCTX_INPROC_SERVER,
+                interface = cls._interface_))
         else:
             raise TypeError(f"Cannot create {cls.__name__}")
 

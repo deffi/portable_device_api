@@ -13,7 +13,7 @@ class PropertyKey:
 
     @classmethod
     def create(cls, fmtid: GUID, pid: int) -> Self:
-        v = tagpropertykey(fmtid=fmtid, pid=pid)
+        v = tagpropertykey(fmtid = fmtid, pid = pid)
         return cls(v)
 
     @classmethod

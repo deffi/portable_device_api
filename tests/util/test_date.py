@@ -13,4 +13,4 @@ class TestDate:
 
     def test_to_windows_date(self):
         # 1e-6 days ≈ 0.08 seconds
-        assert to_windows_date(datetime(2024, 1, 15, 18, 46, 6)) == approx(45306.782013888886, abs=1e-6)
+        assert to_windows_date(datetime(2024, 1, 15, 18, 46, 6)) == approx(45306.782013888886, abs = 1e-6)

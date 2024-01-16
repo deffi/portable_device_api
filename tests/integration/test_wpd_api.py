@@ -123,7 +123,7 @@ class TestDevice:
         return buffer
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope = "session")
 def test_device():
     device_description, base_name = os.environ["PORTABLE_DEVICE_API_TEST_PATH"].split("/")
     td = TestDevice(device_description)
