@@ -1,5 +1,3 @@
-Rename github repo to python_portable_device_api
-
 Code TODOs
 
 On-device copy/move/rename
