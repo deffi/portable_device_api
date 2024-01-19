@@ -1,3 +1,7 @@
+from importlib.metadata import version as _version
+
+__version__ = _version(__name__)
+
 from .i_unknown import IUnknown
 
 from .prop_variant import PropVariant

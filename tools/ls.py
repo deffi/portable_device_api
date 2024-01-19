@@ -5,6 +5,7 @@ from collections.abc import Iterator
 
 from comtypes import COMError, GUID
 
+import portable_device_api
 from portable_device_api import (PortableDeviceManager, PortableDevice, PortableDeviceContent,
                                  PortableDeviceKeyCollection, errors, PortableDeviceProperties, PropertyKey)
 from portable_device_api._util import ignore_com_error
@@ -100,6 +101,8 @@ def _ls(device_description: str) -> None:
 
 
 def main():
+    print(f"portable_device_api version {portable_device_api.__version__}")
+
     if len(sys.argv) > 1:
         _ls(device_description = sys.argv[1])
 
