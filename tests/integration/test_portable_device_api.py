@@ -15,6 +15,8 @@ timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 
 class TestDevice:
+    __test__ = False
+
     def __init__(self, device_description: str):
         self.test_dir_object_id = None
 
