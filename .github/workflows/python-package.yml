@@ -39,4 +39,4 @@ jobs:
       #env:
       #  PYTHONPATH: src:tests
       run: |
-        pytest -m "not device"
+        poetry run pytest -m "not device"
