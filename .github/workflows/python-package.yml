@@ -39,4 +39,4 @@ jobs:
       #env:
       #  PYTHONPATH: src:tests
       run: |
-        pytest -m not device
+        pytest -m "not device"
