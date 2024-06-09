@@ -48,11 +48,14 @@ from contextlib import contextmanager
 
 
 @contextmanager
-def modify_methodspec(interface_class: type, method_name: str) -> None:
+def replace_methodspec(interface_class: type, method_name: str, mapping) -> None:  # TODO type annotation for mapping
+    # As of comtypes 1.3.0, _ComMemberSpec is a NamedTuple and therefore we
+    # have to replace the methodspec rather than modifying it in place.
+
     # noinspection PyProtectedMember
-    for method in interface_class._methods_:
-        if method.name == method_name:
-            yield method
+    for index in range(len(interface_class._methods_)):
+        if interface_class._methods_[index].name == method_name:
+            interface_class._methods_[index] = mapping(interface_class._methods_[index])
 
     # Otherwise, _cominterface_meta._make_methods (called via __setattr__) will refuse to replace it
     delattr(interface_class, method_name)
@@ -73,3 +76,10 @@ def change_pflags(paramflags: tuple[tuple[int, str], ...], argname: str, pflags:
             return paramflag
 
     return tuple(map(map_paramflag, paramflags))
+
+
+def replace_methodspec_change_pflags(interface_class: type, method_name: str, argname: str, pflags: int):
+    def mapping(methodspec):
+        return methodspec._replace(paramflags = change_pflags(methodspec.paramflags, argname, pflags))
+
+    replace_methodspec(interface_class, method_name, mapping)

@@ -48,8 +48,7 @@ WSTRING = _module.WSTRING
 # generated with ['out'], but the documentation[2] says [in, out].
 #
 # Used in portable_device_api.enum_portable_device_object_ids.
-with _comtypes_utils.modify_methodspec(_module.IEnumPortableDeviceObjectIDs, "Next") as method:
-    method.paramflags = _comtypes_utils.change_pflags(method.paramflags, "pObjIDs", 3)  # 3: [in, out]
+_comtypes_utils.replace_methodspec_change_pflags(_module.IEnumPortableDeviceObjectIDs, "Next", "pObjIDs", 3)
 
 # The documentation situation isn't quite as clear here, as the only mention of
 # ISequentialStream.RemoteRead I could find is in the documentation for
@@ -57,8 +56,7 @@ with _comtypes_utils.modify_methodspec(_module.IEnumPortableDeviceObjectIDs, "Ne
 # in C#, so this might not be useful here.
 #
 # See portable_device_api.portable_device_data_stream.
-with _comtypes_utils.modify_methodspec(_module.ISequentialStream, "RemoteRead") as method:
-    method.paramflags = _comtypes_utils.change_pflags(method.paramflags, "pv", 3)  # 3: [in, out]
+_comtypes_utils.replace_methodspec_change_pflags(_module.ISequentialStream, "RemoteRead", "pv", 3)
 
 
 # The GUID and methods of the IPortableDeviceDataStream interface are from
