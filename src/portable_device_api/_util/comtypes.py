@@ -49,13 +49,14 @@ from contextlib import contextmanager
 
 @contextmanager
 def replace_methodspec(interface_class: type, method_name: str, mapping) -> None:  # TODO type annotation for mapping
-    # As of comtypes 1.3.0, _ComMemberSpec is a NamedTuple and therefore we
+    # As of comtypes 1.3.0, _ComMemberSpec is a NamedTuple, and therefore, we
     # have to replace the methodspec rather than modifying it in place.
 
     # noinspection PyProtectedMember
-    for index in range(len(interface_class._methods_)):
-        if interface_class._methods_[index].name == method_name:
-            interface_class._methods_[index] = mapping(interface_class._methods_[index])
+    for index, methodspec in enumerate(interface_class._methods_):
+        if methodspec.name == method_name:
+            methodspec = mapping(methodspec)
+            interface_class._methods_[index] = methodspec
 
     # Otherwise, _cominterface_meta._make_methods (called via __setattr__) will refuse to replace it
     delattr(interface_class, method_name)
