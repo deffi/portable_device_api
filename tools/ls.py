@@ -73,7 +73,7 @@ def _ls(device_description: str) -> None:
 
     object_id = defs.WPD_DEVICE_OBJECT_ID
 
-    print(f"{'Object ID':<55}{'Content type':<42}{'Object name'!s:<40}{'Original file name'!s:<45}")
+    print(f"{'Object ID':<55}{'Content type':<42}{'Object name':<40}{'Original file name':<45}")
 
     for depth, oid in walk(content, object_id):
         keys = PortableDeviceKeyCollection.create()
@@ -96,7 +96,7 @@ def _ls(device_description: str) -> None:
         except COMError:
             original_file_name = None
 
-        print(f"{'  ' * depth}{oid:<55}{content_type!s:<42}{object_name!s:<40}{original_file_name!s:<45}")
+        print(f"{'  ' * depth}{oid:<55}{content_type:<42}{object_name:<40}{original_file_name:<45}")
         _dump_properties(properties, oid, depth + 1)
 
 
