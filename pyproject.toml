@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A wrapper around the Windows Portable Devices (WPD) API"
 authors = ["Martin Herrmann <martin@famherrmann.de>"]
 homepage = "https://github.com/deffi/python_portable_device_api"
-repository = "https://github.com/deffi/python_portable_device_api"
+repository = "https://github.com/deffi/python-portable-device-api.git"
 
 license = "AGPL-3.0-or-later"
 classifiers = [
@@ -29,7 +29,7 @@ comtypes = "*"
 pytest = "*"
 
 [tool.poetry.urls]
-"Issue tracker" = "https://github.com/deffi/python_portable_device_api"
+"Issue tracker" = "https://github.com/deffi/python-portable-device-api/issues"
 
 [build-system]
 requires = ["poetry-core"]
