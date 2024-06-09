@@ -19,7 +19,7 @@ class PortableDeviceManager(ComWrapper):
 
     # Device list ##############################################################
 
-    def get_devices(self) -> Iterator[str]:
+    def get_devices(self) -> Iterator[str]:  # TODO return list of string
         # Determine the length by passing a null pointer for the device IDs
         # [in, out] POINTER(WSTRING) pPnPDeviceIDs
         # [in, out] POINTER(c_ulong) pcPnPDeviceIDs
