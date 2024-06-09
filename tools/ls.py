@@ -96,7 +96,7 @@ def _ls(device_description: str) -> None:
         except COMError:
             original_file_name = None
 
-        print(f"{'  ' * depth}{oid:<55}{content_type:<42}{object_name:<40}{original_file_name:<45}")
+        print(f"{'  ' * depth}{oid:<55}{content_type:<42}{object_name or "":<40}{original_file_name or "":<45}")
         _dump_properties(properties, oid, depth + 1)
 
 
