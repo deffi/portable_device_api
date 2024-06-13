@@ -6,7 +6,7 @@ from portable_device_api._api.portable_device_api import tagpropertykey
 
 
 class PropertyKey:
-    """Mostly just here for the __eq__"""
+    """Mostly just here for the __eq__ and the __hash__"""
 
     def __init__(self, v: tagpropertykey):
         self._v = v
@@ -23,6 +23,9 @@ class PropertyKey:
     @property
     def v(self) -> tagpropertykey:
         return self._v
+
+    def __hash__(self):
+        return hash((self.v.fmtid, self.v.pid))
 
     def __eq__(self, other):
         if isinstance(other, PropertyKey):
