@@ -6,7 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/tests/htmlcov" />
     </content>
-    <orderEntry type="jdk" jdkName="Poetry (python-portable-device-api) (2)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Poetry (python-portable-device-api)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
